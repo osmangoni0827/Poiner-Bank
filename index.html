@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="bootstrap.css">
+   <link rel="stylesheet" href="bootstrap.min.css">
+   <link rel="stylesheet" href="all.min.css">
+   <link rel="stylesheet" href="all.css">
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default" id="MainasButton"><i class="fas fa-minus"></i></button>
+
+                           <input type="text" id='CountParts' class="form-control text-center " value="0">
+                           
+                           <button id="PluseButton"class="btn btn-default "><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span id="Showprize">0</span></h5>
+                        <a id="Mobileclear">
+                           <img src="images/remove.png" alt="" class="remove-item">
+                        </a>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default" id="MainasButtonCover"><i class="fas fa-minus"></i></button>
+
+                           <input type="text" id="CountPartsCover"class="form-control text-center" value="0">
+
+                           <button class="btn btn-default" id="PluseButtonCover"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span id="ShowCoverprize">0</span></h5>
+                        <a  id="clearcover">
+                           <img src="images/remove.png" alt="" class="remove-item">
+                        </a>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="subtotal">0</span></h5>
+                        <h5>$ <span id="tex">0</span></h5>
+                        <h5>$ <span id="total">0</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+
+<script>
+
+const MobilePluseButton=document.getElementById('PluseButton');
+MobilePluseButton.addEventListener('click',function(){
+      CountCalculate('CountParts','PluseButton','subtotal','Showprize');
+      
+   });
+
+const MobileMainasButton=document.getElementById('MainasButton');
+      MobileMainasButton.addEventListener('click',function(){
+      CountCalculate('CountParts','MainasButton','subtotal','Showprize');
+   });
+
+const clear=document.getElementById('Mobileclear');
+clear.addEventListener('click',Clear);
+
+   // Cover Listener Part
+
+   const CoverPluseButton=document.getElementById('PluseButtonCover');
+      CoverPluseButton.addEventListener('click',function(){
+      CountCalculate('CountPartsCover','PluseButtonCover','subtotal','ShowCoverprize');
+      
+   });
+
+   const CoverMainasButton=document.getElementById('MainasButtonCover');
+      CoverMainasButton.addEventListener('click',function(){
+      CountCalculate('CountPartsCover','MainasButtonCover','subtotal','ShowCoverprize');
+   });
+
+   const coverclear=document.getElementById('clearcover');
+      coverclear.addEventListener('click',Clear);
+               // Calculate
+function CountCalculate(countId,countTypeClick,totalid,showprize)
+{
+   var Count=document.getElementById(countId);
+      const element = Count.value;
+      var CountInt=parseInt(element);
+      var ShowPrize=document.getElementById(showprize);
+      var Total=document.getElementById(totalid);
+
+
+      if(countTypeClick=='PluseButton'||countTypeClick=='PluseButtonCover')
+      {
+         CountInt++;
+         Count.value=CountInt;
+         Show(Total,ShowPrize,CountInt);
+      }
+      else{
+            if(CountInt>0)
+               {
+                  CountInt--;
+                  Count.value=CountInt;
+                  Show(Total,ShowPrize,CountInt);
+               }
+         }
+}
+
+                      // Show All
+function Show(SubTotal,ShowPrize,CountInt)
+{                
+   if(ShowPrize==document.getElementById('ShowCoverprize'))
+   {
+      ShowPrize.innerText=60*CountInt;
+   }
+   else{
+      ShowPrize.innerText=1220*CountInt;
+   }
+
+   const Total=document.getElementById('total');
+   const TotalMobilePrize=document.getElementById('Showprize');
+   const TotalCoverPrize=document.getElementById('ShowCoverprize');
+   var Tex=document.getElementById('tex');
+
+   var Totalsub=parseInt(TotalMobilePrize.innerText)+parseInt(TotalCoverPrize.innerText);
+   SubTotal.innerText=Totalsub;
+   if(parseInt(Totalsub)>3000)
+   {
+      Tex.innerText=Totalsub*0.10;
+   }
+   else{
+      Tex.innerText=0;
+   }
+   Total.innerText=Totalsub+parseInt(Tex.innerText);
+}
+
+// cleer Function
+function Clear()
+{
+   document.getElementById('CountParts').value='0';
+}
+</script>
+
+
+
+   <script src="all.js"></script>
+   <script src="all.min.js"></script>
+</body>
+</html>
